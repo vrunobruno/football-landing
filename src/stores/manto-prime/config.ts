@@ -14,7 +14,7 @@ export const mantoPrimeConfig: StoreConfig = {
   pixDiscountPercent: 5,
   announcementText: 'R$ 149,90 em todos os mantos • 5% OFF no Pix • Chame no WhatsApp para comprar',
   defaultWhatsAppGreeting: 'Olá! Vim pelo catálogo da Manto Prime e gostaria de consultar a disponibilidade de uma camisa.',
-  logoUrl: '/stores/manto-prime/logo.webp',
+  logoUrl: '/stores/manto-prime/logo-prime-manto.jpeg',
   heroImage: '/stores/manto-prime/products/1230cfe3-312c-480b-8451-151a7ed82bac.webp',
   heroProductName: 'AC Milan Home',
   heroProductMeta: 'Tam P ao XGG',
