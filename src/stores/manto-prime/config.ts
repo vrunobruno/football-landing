@@ -1,7 +1,7 @@
 import { StoreConfig } from '../../types';
 
 export const mantoPrimeConfig: StoreConfig = {
-  name: 'Manto Prime',
+  name: 'Prime Manto',
   tagline: 'VISTA A CAMISA.',
   subtagline: 'Camisas de futebol para quem vive o jogo. Mantos nacionais para vestir sua paixão.',
   brandColor: '#B59A62',
