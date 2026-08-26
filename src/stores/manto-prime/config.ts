@@ -15,7 +15,7 @@ export const mantoPrimeConfig: StoreConfig = {
   announcementText: 'Pedidos pelo WhatsApp',
   defaultWhatsAppGreeting: 'Olá! Vim pelo catálogo da Manto Prime e gostaria de consultar a disponibilidade de uma camisa.',
   logoUrl: '/stores/manto-prime/products/logo-prime-manto.jpeg',
-  heroImage: '/stores/manto-prime/products/d61cf42a-d35f-4d5c-a4d2-02c7e89d5349.jpeg',
+  heroImage: '/stores/manto-prime/products/palmeiras-home-frente.jpeg',
   heroProductName: 'Palmeiras Home',
   heroProductMeta: 'Tam P ao XGG',
   heroProductPrice: 149.90,
