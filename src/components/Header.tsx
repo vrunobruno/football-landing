@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { MessageCircle, Instagram, Menu, X, Ruler } from 'lucide-react';
-import { StoreConfig } from '../types';
+import { ProductCategory, StoreConfig } from '../types';
 import { buildWhatsAppLink } from '../data/storeData';
 
 interface HeaderProps {
   storeConfig: StoreConfig;
   onOpenSizeGuide: () => void;
+  onNavigateToCategory: (category: ProductCategory) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ storeConfig, onOpenSizeGuide }) => {
+export const Header: React.FC<HeaderProps> = ({ storeConfig, onOpenSizeGuide, onNavigateToCategory }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -23,12 +24,17 @@ export const Header: React.FC<HeaderProps> = ({ storeConfig, onOpenSizeGuide }) 
   const generalWhatsAppUrl = buildWhatsAppLink(storeConfig.whatsappNumber);
 
   const navLinks = [
-    { label: 'Todos os Mantos', href: '#catalogo' },
-    { label: 'Mais Vendidas', href: '#catalogo' },
-    { label: 'Brasileirão', href: '#catalogo' },
-    { label: 'Europeias', href: '#catalogo' },
-    { label: 'Retrô', href: '#catalogo' },
-  ];
+    { label: 'Todos os Mantos', category: 'todos' },
+    { label: 'Mais Vendidas', category: 'mais-vendidas' },
+    { label: 'Brasileirão', category: 'brasileirao' },
+    { label: 'Europeias', category: 'europeias' },
+    { label: 'Retrô', category: 'retro' },
+  ] as const;
+
+  const handleNavigation = (category: ProductCategory) => {
+    onNavigateToCategory(category);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header 
@@ -52,13 +58,13 @@ export const Header: React.FC<HeaderProps> = ({ storeConfig, onOpenSizeGuide }) 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-7">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.label}
-                href={link.href}
-                className="text-xs uppercase tracking-wider font-semibold text-[#555550] hover:text-[#111111] transition-colors py-1"
+                onClick={() => handleNavigation(link.category)}
+                className="text-xs uppercase tracking-wider font-semibold text-[#555550] hover:text-[#111111] transition-colors py-1 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
               >
                 {link.label}
-              </a>
+              </button>
             ))}
             
             <button
@@ -117,14 +123,13 @@ export const Header: React.FC<HeaderProps> = ({ storeConfig, onOpenSizeGuide }) 
         <div className="lg:hidden bg-white border-b border-[#E5E3DC] px-6 py-6 space-y-4 animate-in slide-in-from-top-2 duration-150 shadow-lg">
           <div className="flex flex-col space-y-3">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-xs uppercase tracking-wider font-bold text-[#333330] hover:text-black py-2 border-b border-neutral-100"
+                onClick={() => handleNavigation(link.category)}
+                className="text-xs uppercase tracking-wider font-bold text-[#333330] hover:text-black py-2 border-b border-neutral-100 text-left cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
               >
                 {link.label}
-              </a>
+              </button>
             ))}
             
             <button

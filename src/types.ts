@@ -16,7 +16,10 @@ export interface Product {
   category: ProductCategory[];
   price: number;
   originalPrice?: number;
-  image: string;
+  /** Legacy single-image field, retained for existing product records. */
+  image?: string;
+  /** Preferred gallery field for new product records. */
+  images?: string[];
   secondaryImage?: string;
   sizes: SizeOption[];
   isFeatured?: boolean;
@@ -47,19 +50,6 @@ export interface StoreConfig {
   pixDiscountPercent: number;
   announcementText: string;
   defaultWhatsAppGreeting: string;
-}
-
-export interface Testimonial {
-  id: string;
-  author: string;
-  handle?: string;
-  location: string;
-  text: string;
-  rating: number;
-  jerseyBought: string;
-  date: string;
-  avatar?: string;
-  verified: boolean;
 }
 
 export interface SizeMeasurement {

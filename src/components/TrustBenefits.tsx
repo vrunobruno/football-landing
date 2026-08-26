@@ -1,11 +1,7 @@
 import React from 'react';
 import { Truck, QrCode, ShieldCheck, RefreshCw } from 'lucide-react';
 
-interface TrustBenefitsProps {
-  onOpenSizeGuide?: () => void;
-}
-
-export const TrustBenefits: React.FC<TrustBenefitsProps> = () => {
+export const TrustBenefits: React.FC = () => {
   const benefits = [
     {
       icon: Truck,

@@ -1,4 +1,4 @@
-import { StoreConfig, Product, Testimonial, SizeMeasurement } from '../types';
+import { StoreConfig, Product, SizeMeasurement } from '../types';
 
 export const defaultStoreConfig: StoreConfig = {
   name: 'MANTO FC',
@@ -34,6 +34,10 @@ export const productsData: Product[] = [
     price: 119.90,
     originalPrice: 159.90,
     image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1518091043644-c1d4457512c6?q=80&w=800&auto=format&fit=crop',
+    ],
     secondaryImage: 'https://images.unsplash.com/photo-1518091043644-c1d4457512c6?q=80&w=800&auto=format&fit=crop',
     sizes: ['P', 'M', 'G', 'GG', 'XGG'],
     isFeatured: true,
@@ -276,47 +280,24 @@ export const productsData: Product[] = [
   }
 ];
 
-export const testimonialsData: Testimonial[] = [
-  {
-    id: 'test-1',
-    author: 'Matheus Fontoura',
-    handle: '@fontoura_m9',
-    location: 'Porto Alegre, RS',
-    jerseyBought: 'Grêmio Home 2025/26 (Tamanho G)',
-    rating: 5,
-    date: 'Há 3 dias',
-    text: 'Chegou em 4 dias úteis aqui em POA! O acabamento é impecável, escudo bordado perfeito e tecido levíssimo.',
-    verified: true
-  },
-  {
-    id: 'test-2',
-    author: 'Gabriel Silveira',
-    handle: '@gabriel.silva94',
-    location: 'São Paulo, SP',
-    jerseyBought: 'Real Madrid Home 25/26 (Tamanho M)',
-    rating: 5,
-    date: 'Há 5 dias',
-    text: 'Atendimento pelo WhatsApp foi nota 10, enviaram foto da camisa antes de postar e mandaram o rastreio na hora.',
-    verified: true
-  },
-  {
-    id: 'test-3',
-    author: 'Lucas Medeiros',
-    handle: '@lucas_medeiros',
-    location: 'Rio de Janeiro, RJ',
-    jerseyBought: 'Flamengo Home 25/26 (Tamanho GG)',
-    rating: 5,
-    date: 'Há 1 semana',
-    text: 'Qualidade idêntica à de loja oficial. Pagamento via Pix com 5% de desconto e entrega rápida sem dor de cabeça.',
-    verified: true
-  }
-];
-
 export function formatBRL(amount: number): string {
   return amount.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   });
+}
+
+/** Returns a stable gallery for both new and legacy product records. */
+export function getProductImages(product: Product): string[] {
+  const images = product.images?.filter(Boolean) ?? [];
+
+  if (images.length > 0) {
+    return images;
+  }
+
+  return [product.image, product.secondaryImage].filter(
+    (image): image is string => Boolean(image),
+  );
 }
 
 export function buildWhatsAppLink(

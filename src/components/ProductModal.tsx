@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { X, MessageCircle, ShieldCheck, Truck, QrCode, Ruler } from 'lucide-react';
 import { Product, SizeOption, StoreConfig } from '../types';
-import { formatBRL, buildWhatsAppLink } from '../data/storeData';
+import { formatBRL, buildWhatsAppLink, getProductImages } from '../data/storeData';
 
 interface ProductModalProps {
   product: Product | null;
@@ -16,34 +16,72 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   onClose,
   onOpenSizeGuide,
 }) => {
-  if (!product) return null;
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previouslyFocusedElement = useRef<HTMLElement | null>(null);
+  const [selectedSize, setSelectedSize] = useState<SizeOption | null>(null);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
-  const defaultSize: SizeOption = product.sizes.includes('G')
+  const defaultSize = product && (product.sizes.includes('G')
     ? 'G'
     : product.sizes.includes('M')
-    ? 'M'
-    : product.sizes[0];
+      ? 'M'
+      : product.sizes[0]);
 
-  const [selectedSize, setSelectedSize] = useState<SizeOption>(defaultSize);
-  const [activeImage, setActiveImage] = useState<string>(product.image);
-
-  // Close on Escape key
   useEffect(() => {
+    if (!product) return;
+
+    previouslyFocusedElement.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    setSelectedSize(defaultSize);
+    setActiveImage(getProductImages(product)[0]);
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
+
+      if (e.key === 'Tab' && dialogRef.current) {
+        const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (!first || !last) return;
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+    requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      previouslyFocusedElement.current?.focus();
+    };
+  }, [product]);
+
+  if (!product || !defaultSize) return null;
+
+  const selectedProductSize = selectedSize ?? defaultSize;
+  const images = getProductImages(product);
+  const displayedImage = activeImage ?? images[0];
 
   const pixPrice = product.price * (1 - storeConfig.pixDiscountPercent / 100);
   const whatsappUrl = buildWhatsAppLink(
     storeConfig.whatsappNumber,
     { name: product.name, price: product.price },
-    selectedSize
+    selectedProductSize
   );
 
-  const formattedMsg = `Olá! Tenho interesse na camisa ${product.name}, tamanho ${selectedSize}, por ${formatBRL(product.price)}. Ainda está disponível para envio?`;
+  const formattedMsg = `Olá! Tenho interesse na camisa ${product.name}, tamanho ${selectedProductSize}, por ${formatBRL(product.price)}. Ainda está disponível para envio?`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
@@ -51,14 +89,16 @@ export const ProductModal: React.FC<ProductModalProps> = ({
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-3xl bg-white border border-[#EAE8E2] shadow-2xl overflow-hidden z-10 my-auto">
+      <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="product-modal-title" className="relative w-full max-w-3xl bg-white border border-[#EAE8E2] shadow-2xl overflow-hidden z-10 my-auto">
         
         {/* Close Button */}
         <button
           onClick={onClose}
+          ref={closeButtonRef}
           className="absolute top-4 right-4 z-20 p-2 bg-white hover:bg-[#F2F0E8] text-[#111111] border border-[#E0DED7] transition-colors cursor-pointer shadow-xs"
           aria-label="Fechar"
           id="modal-close-btn"
@@ -77,31 +117,22 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 </div>
               )}
               <img
-                src={activeImage}
+                src={displayedImage}
                 alt={product.name}
                 className="w-full h-full object-cover object-center"
               />
             </div>
 
             {/* Thumbnail switcher if secondary image exists */}
-            {product.secondaryImage && (
+            {images.length > 1 && (
               <div className="flex gap-2">
-                <button
-                  onClick={() => setActiveImage(product.image)}
-                  className={`w-14 h-14 overflow-hidden border cursor-pointer transition-all ${
-                    activeImage === product.image ? 'border-[#111111] ring-1 ring-black' : 'border-[#D5D2C9] opacity-70'
-                  }`}
-                >
-                  <img src={product.image} alt="Vista 1" className="w-full h-full object-cover" />
-                </button>
-                <button
-                  onClick={() => setActiveImage(product.secondaryImage!)}
-                  className={`w-14 h-14 overflow-hidden border cursor-pointer transition-all ${
-                    activeImage === product.secondaryImage ? 'border-[#111111] ring-1 ring-black' : 'border-[#D5D2C9] opacity-70'
-                  }`}
-                >
-                  <img src={product.secondaryImage} alt="Vista 2" className="w-full h-full object-cover" />
-                </button>
+                {images.map((image, index) => (
+                  <button key={image} type="button" onClick={() => setActiveImage(image)} aria-label={`Imagem ${index + 1} de ${images.length}`} aria-pressed={displayedImage === image} className={`w-14 h-14 overflow-hidden border cursor-pointer transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] ${
+                    displayedImage === image ? 'border-[#111111] ring-1 ring-black' : 'border-[#D5D2C9] opacity-70'
+                  }`}>
+                    <img src={image} alt={`${product.name}, imagem ${index + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
               </div>
             )}
 
@@ -132,7 +163,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               </div>
 
               {/* Title */}
-              <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-[#111111] mb-4">
+              <h2 id="product-modal-title" className="font-display text-2xl font-bold uppercase tracking-tight text-[#111111] mb-4">
                 {product.name}
               </h2>
 
@@ -180,7 +211,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               {/* Size Selector */}
               <div className="mb-4">
                 <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-[#666660] mb-2">
-                  <span>Tamanho: <strong className="text-[#111111]">{selectedSize}</strong></span>
+                  <span>Tamanho: <strong className="text-[#111111]">{selectedProductSize}</strong></span>
                   <button
                     onClick={onOpenSizeGuide}
                     className="flex items-center gap-1 text-[#111111] hover:underline cursor-pointer font-bold"
@@ -192,11 +223,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
                 <div className="grid grid-cols-5 gap-1.5">
                   {product.sizes.map((size) => {
-                    const isSelected = selectedSize === size;
+                    const isSelected = selectedProductSize === size;
                     return (
                       <button
                         key={size}
+                        type="button"
                         onClick={() => setSelectedSize(size)}
+                        aria-pressed={isSelected}
                         className={`py-2 text-xs font-mono font-bold uppercase transition-colors cursor-pointer border ${
                           isSelected
                             ? 'bg-[#111111] text-white border-[#111111]'
@@ -231,7 +264,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 id="modal-whatsapp-cta"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Comprar pelo WhatsApp • Tam {selectedSize}</span>
+                  <span>Comprar pelo WhatsApp • Tam {selectedProductSize}</span>
               </a>
               <span className="block text-center text-[10px] font-mono text-[#888880] uppercase tracking-wider mt-2">
                 Atendimento direto com o vendedor • Sem burocracia

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Product, StoreConfig, SizeOption } from '../types';
-import { formatBRL, buildWhatsAppLink } from '../data/storeData';
+import { formatBRL, buildWhatsAppLink, getProductImages } from '../data/storeData';
 import { MessageCircle, ArrowRight, Eye } from 'lucide-react';
 
 interface FeaturedJerseysProps {
@@ -54,6 +54,7 @@ export const FeaturedJerseys: React.FC<FeaturedJerseysProps> = ({
           {featuredItems.map((product) => {
             const currentSize = selectedSizes[product.id] || (product.sizes.includes('G') ? 'G' : product.sizes[0]);
             const pixPrice = product.price * (1 - storeConfig.pixDiscountPercent / 100);
+            const productImages = getProductImages(product);
             const whatsappUrl = buildWhatsAppLink(
               storeConfig.whatsappNumber,
               { name: product.name, price: product.price },
@@ -67,7 +68,7 @@ export const FeaturedJerseys: React.FC<FeaturedJerseysProps> = ({
               >
                 <div>
                   {/* Image Container with high whitespace */}
-                  <div className="relative aspect-[4/4.5] bg-[#F4F3EF] overflow-hidden mb-4 cursor-pointer" onClick={() => onQuickView(product)}>
+                  <button type="button" className="relative w-full aspect-[4/4.5] bg-[#F4F3EF] overflow-hidden mb-4 cursor-pointer text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]" onClick={() => onQuickView(product)} aria-label={`Ver detalhes de ${product.name}`}>
                     {product.badge && (
                       <span className="absolute top-2.5 left-2.5 z-10 bg-[#111111] text-white text-[9px] font-mono font-bold px-2 py-0.5 uppercase tracking-wider">
                         {product.badge}
@@ -75,7 +76,7 @@ export const FeaturedJerseys: React.FC<FeaturedJerseysProps> = ({
                     )}
 
                     <img
-                      src={product.image}
+                      src={productImages[0]}
                       alt={product.name}
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
@@ -88,7 +89,7 @@ export const FeaturedJerseys: React.FC<FeaturedJerseysProps> = ({
                         Ver Detalhes
                       </span>
                     </div>
-                  </div>
+                  </button>
 
                   {/* Team & League */}
                   <div className="text-[10px] font-mono uppercase tracking-wider text-[#888880] mb-1">
@@ -96,11 +97,8 @@ export const FeaturedJerseys: React.FC<FeaturedJerseysProps> = ({
                   </div>
 
                   {/* Product Title */}
-                  <h3
-                    onClick={() => onQuickView(product)}
-                    className="text-sm font-bold text-[#111111] uppercase tracking-tight leading-snug mb-2 hover:underline cursor-pointer line-clamp-2"
-                  >
-                    {product.name}
+                  <h3 className="mb-2">
+                    <button type="button" onClick={() => onQuickView(product)} className="text-left text-sm font-bold text-[#111111] uppercase tracking-tight leading-snug hover:underline cursor-pointer line-clamp-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]">{product.name}</button>
                   </h3>
 
                   {/* Price */}
@@ -131,7 +129,8 @@ export const FeaturedJerseys: React.FC<FeaturedJerseysProps> = ({
                         return (
                           <button
                             key={size}
-                            onClick={() => handleSelectSize(product.id, size)}
+                        onClick={() => handleSelectSize(product.id, size)}
+                        aria-pressed={isSelected}
                             className={`py-1 text-[11px] font-mono font-bold transition-colors cursor-pointer border ${
                               isSelected
                                 ? 'bg-[#111111] text-white border-[#111111]'

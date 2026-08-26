@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { AnnouncementBar } from './components/AnnouncementBar';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -57,8 +57,13 @@ export default function App() {
     }
   };
 
+  const handleCategoryNavigation = useCallback((category: ProductCategory) => {
+    setSelectedCategory(category);
+    requestAnimationFrame(scrollToCatalog);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#F7F6F2] text-[#111111] flex flex-col selection:bg-[#111111] selection:text-white">
+    <div className="min-h-screen pb-20 sm:pb-0 bg-[#F7F6F2] text-[#111111] flex flex-col selection:bg-[#111111] selection:text-white">
       
       {/* 0. Seller Demo Toolbar (Interactive preview testbench for sellers) */}
       <SellerDemoToolbar
@@ -74,6 +79,7 @@ export default function App() {
       <Header
         storeConfig={storeConfig}
         onOpenSizeGuide={() => setIsSizeGuideOpen(true)}
+        onNavigateToCategory={handleCategoryNavigation}
       />
 
       {/* 3. Hero Section */}
@@ -169,6 +175,7 @@ export default function App() {
       <Footer
         storeConfig={storeConfig}
         onOpenSizeGuide={() => setIsSizeGuideOpen(true)}
+        onNavigateToCategory={handleCategoryNavigation}
       />
 
       {/* 10. Sticky Mobile Conversion Bar */}

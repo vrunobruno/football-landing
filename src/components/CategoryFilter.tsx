@@ -33,6 +33,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         {/* Search Input */}
         <div className="relative flex-1 max-w-md">
+          <label htmlFor="product-search-input" className="sr-only">Buscar camisas</label>
           <Search className="w-4 h-4 text-[#888880] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
@@ -76,6 +77,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
               <button
                 key={cat.id}
                 onClick={() => onSelectCategory(cat.id)}
+                aria-pressed={isSelected}
                 className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap border ${
                   isSelected
                     ? 'bg-[#111111] text-white border-[#111111]'

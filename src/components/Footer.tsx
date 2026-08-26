@@ -1,14 +1,15 @@
 import React from 'react';
 import { Instagram, MessageCircle, ShieldCheck, QrCode, Truck, ArrowUp } from 'lucide-react';
-import { StoreConfig } from '../types';
+import { ProductCategory, StoreConfig } from '../types';
 import { buildWhatsAppLink } from '../data/storeData';
 
 interface FooterProps {
   storeConfig: StoreConfig;
   onOpenSizeGuide: () => void;
+  onNavigateToCategory: (category: ProductCategory) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ storeConfig, onOpenSizeGuide }) => {
+export const Footer: React.FC<FooterProps> = ({ storeConfig, onOpenSizeGuide, onNavigateToCategory }) => {
   const whatsappUrl = buildWhatsAppLink(storeConfig.whatsappNumber);
 
   const scrollToTop = () => {
@@ -58,14 +59,14 @@ export const Footer: React.FC<FooterProps> = ({ storeConfig, onOpenSizeGuide }) 
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a href="#catalogo" className="hover:text-[#111111] transition-colors">
+                <button onClick={() => onNavigateToCategory('todos')} className="hover:text-[#111111] transition-colors text-left cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]">
                   Todas as Camisas
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#catalogo" className="hover:text-[#111111] transition-colors">
+                <button onClick={() => onNavigateToCategory('mais-vendidas')} className="hover:text-[#111111] transition-colors text-left cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]">
                   Mais Vendidas
-                </a>
+                </button>
               </li>
               <li>
                 <button
