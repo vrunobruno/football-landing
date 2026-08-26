@@ -1,0 +1,6 @@
+{
+  "name": "Football Store Landing",
+  "description": "Landing page de alta conversão para vendedores independentes de camisas de futebol com compra direta pelo WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
