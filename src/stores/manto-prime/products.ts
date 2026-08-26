@@ -8,6 +8,8 @@ const details = {
   origin: 'Importada',
 };
 
+const baseImage = '/stores/manto-prime/products/';
+
 export const mantoPrimeProducts: Product[] = [
   {
     id: 'manto-prime-palmeiras-home',
@@ -16,10 +18,12 @@ export const mantoPrimeProducts: Product[] = [
     league: 'Brasileirão Série A',
     category: ['brasileirao'],
     price: 149.90,
-    image: '/stores/manto-prime/products/d61cf42a-d35f-4d5c-a4d2-02c7e89d5349.jpeg',
+    image: `${baseImage}palmeiras-home-frente.jpeg`,
     images: [
-      '/stores/manto-prime/products/d61cf42a-d35f-4d5c-a4d2-02c7e89d5349.jpeg',
-      '/stores/manto-prime/products/1e046bf7-ae09-44d4-92e8-1a9a73ad1d28.jpeg',
+      `${baseImage}palmeiras-home-frente.jpeg`,
+      `${baseImage}palmeiras-home-costa.jpeg`,
+      `${baseImage}palmeiras-home02.jpeg`,
+      `${baseImage}palmeiras-home03.jpeg`,
     ],
     sizes: [...sizes],
     isFeatured: true,
@@ -37,10 +41,12 @@ export const mantoPrimeProducts: Product[] = [
     league: 'Brasileirão Série A',
     category: ['brasileirao'],
     price: 149.90,
-    image: '/stores/manto-prime/products/1e046bf7-ae09-44d4-92e8-1a9a73ad1d28.jpeg',
+    image: `${baseImage}palmeiras-away-frente.jpeg`,
     images: [
-      '/stores/manto-prime/products/1e046bf7-ae09-44d4-92e8-1a9a73ad1d28.jpeg',
-      '/stores/manto-prime/products/d61cf42a-d35f-4d5c-a4d2-02c7e89d5349.jpeg',
+      `${baseImage}palmeiras-away-frente.jpeg`,
+      `${baseImage}palmeiras-away-costa.jpeg`,
+      `${baseImage}palmeiras-away02.jpeg`,
+      `${baseImage}palmeiras-away03.jpeg`,
     ],
     sizes: [...sizes],
     description: 'Camisa Palmeiras Away disponível na Manto Prime.',
@@ -55,10 +61,9 @@ export const mantoPrimeProducts: Product[] = [
     league: 'Brasileirão Série A',
     category: ['brasileirao'],
     price: 179.90,
-    image: '/stores/manto-prime/products/63269949-1571-49e7-9d29-c3f33cad53a5.jpeg',
+    image: `${baseImage}corinthians-home-frente .jpeg`,
     images: [
-      '/stores/manto-prime/products/63269949-1571-49e7-9d29-c3f33cad53a5.jpeg',
-      '/stores/manto-prime/products/1e5f87f7-c556-480b-8451-151a7ed82bac.jpeg',
+      `${baseImage}corinthians-home-frente .jpeg`,
     ],
     sizes: [...sizes],
     isFeatured: true,
@@ -76,10 +81,9 @@ export const mantoPrimeProducts: Product[] = [
     league: 'Brasileirão Série A',
     category: ['brasileirao'],
     price: 179.90,
-    image: '/stores/manto-prime/products/1e5f87f7-c556-480b-8451-151a7ed82bac.jpeg',
+    image: `${baseImage}corinthians-away-frente.jpeg`,
     images: [
-      '/stores/manto-prime/products/1e5f87f7-c556-480b-8451-151a7ed82bac.jpeg',
-      '/stores/manto-prime/products/63269949-1571-49e7-9d29-c3f33cad53a5.jpeg',
+      `${baseImage}corinthians-away-frente.jpeg`,
     ],
     sizes: [...sizes],
     description: 'Camisa Corinthians Away disponível na Manto Prime.',
@@ -94,10 +98,10 @@ export const mantoPrimeProducts: Product[] = [
     league: 'Brasileirão Série A',
     category: ['brasileirao'],
     price: 179.90,
-    image: '/stores/manto-prime/products/bf50152d-7d71-4a99-b90f-af0fbe7c92a7.jpeg',
+    image: `${baseImage}flamengo-home-jogador.jpeg`,
     images: [
-      '/stores/manto-prime/products/bf50152d-7d71-4a99-b90f-af0fbe7c92a7.jpeg',
-      '/stores/manto-prime/products/7652376d-b43f-4875-a83b-eaab080dd586.jpeg',
+      `${baseImage}flamengo-home-jogador.jpeg`,
+      `${baseImage}flamengo-home-jogador-costa.jpeg`,
     ],
     sizes: [...sizes],
     isFeatured: true,
@@ -115,10 +119,10 @@ export const mantoPrimeProducts: Product[] = [
     league: 'Brasileirão Série A',
     category: ['brasileirao'],
     price: 179.90,
-    image: '/stores/manto-prime/products/7652376d-b43f-4875-a83b-eaab080dd586.jpeg',
+    image: `${baseImage}flamengo-away-frente.jpeg`,
     images: [
-      '/stores/manto-prime/products/7652376d-b43f-4875-a83b-eaab080dd586.jpeg',
-      '/stores/manto-prime/products/bf50152d-7d71-4a99-b90f-af0fbe7c92a7.jpeg',
+      `${baseImage}flamengo-away-frente.jpeg`,
+      `${baseImage}flamengo-away-costa.jpeg`,
     ],
     sizes: [...sizes],
     description: 'Camisa Flamengo Away disponível na Manto Prime.',
