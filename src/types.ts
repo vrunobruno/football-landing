@@ -40,16 +40,21 @@ export interface StoreConfig {
   name: string;
   tagline: string;
   subtagline: string;
-  brandColor?: string; // Hex color for custom brand accent
+  brandColor?: string;
   instagramHandle: string;
   instagramUrl: string;
-  whatsappNumber: string; // digits only e.g. "5551998765432"
-  whatsappDisplay: string; // e.g. "(51) 99876-5432"
+  whatsappNumber: string;
+  whatsappDisplay: string;
   city: string;
   state: string;
   pixDiscountPercent: number;
   announcementText: string;
   defaultWhatsAppGreeting: string;
+  logoUrl?: string;
+  heroImage?: string;
+  heroProductName?: string;
+  heroProductMeta?: string;
+  heroProductPrice?: number;
 }
 
 export interface SizeMeasurement {
