@@ -19,7 +19,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, storeConfig, 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const pointerStartX = useRef<number | null>(null);
   const didSwipe = useRef(false);
-  const pixPrice = product.price * (1 - storeConfig.pixDiscountPercent / 100);
   const whatsappUrl = buildWhatsAppLink(storeConfig.whatsappNumber, { name: product.name, price: product.price }, selectedSize);
   const hasMultipleImages = images.length > 1;
 
@@ -72,7 +71,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, storeConfig, 
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
-            {images.map((_, index) => <button key={index} type="button" onClick={() => setImage(index)} aria-label={`Imagem ${index + 1} de ${images.length}`} aria-current={index === activeImageIndex ? 'true' : undefined} className={`h-1.5 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] ${index === activeImageIndex ? 'w-4 bg-[#111111]' : 'w-1.5 bg-white/90 hover:bg-white'}`} />)}
+            {images.map((_, index) => <button key={index} type="button" onClick={() => setImage(index)} aria-label={`Imagem ${index + 1} de ${images.length}`} aria-current={index === activeImageIndex ? 'true' : undefined} className={`h-1.5 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] ${index === activeImageIndex ? 'w-4 bg-[#111111]' : 'w-1.5 bg-white/90 hover:bg-white'}`}></button>)}
           </div>
         </>}
 
@@ -87,8 +86,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, storeConfig, 
         <h3 className="mb-2.5"><button type="button" onClick={() => onQuickView(product)} className="text-left text-sm font-bold uppercase tracking-tight text-[#111111] hover:underline cursor-pointer line-clamp-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]" title={product.name}>{product.name}</button></h3>
 
         <div className="flex items-baseline justify-between mb-4 pb-3 border-b border-[#F0EFEB]">
-          <div><span className="text-base font-mono font-bold text-[#111111]">{formatBRL(product.price)}</span>{product.originalPrice && <span className="text-xs font-mono text-[#999990] line-through ml-2">{formatBRL(product.originalPrice)}</span>}</div>
-          <span className="text-[11px] font-mono text-[#25D366] font-bold">Pix: {formatBRL(pixPrice)}</span>
+          <span className="text-base font-mono font-bold text-[#111111]">{formatBRL(product.price)}</span>
         </div>
 
         <div className="mb-4">
