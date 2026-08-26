@@ -12,7 +12,7 @@ export const Hero: React.FC<HeroProps> = ({ storeConfig, onExploreClick }) => {
     <section className="relative overflow-hidden bg-[#F7F6F2] border-b border-[#EAE8E2] pt-8 sm:pt-14 pb-12 sm:pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         <div className="lg:col-span-7 flex flex-col items-start text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-[#E2DFD7] text-[#111111] text-[11px] font-mono uppercase tracking-widest mb-6"><span className="w-2 h-2 rounded-full bg-[#111111]" /><span>Coleção 2025/2026 • Padrão Tailandesa 1:1</span></div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-[#E2DFD7] text-[#111111] text-[11px] font-mono uppercase tracking-widest mb-6"><span className="w-2 h-2 rounded-full bg-[#111111]" /><span>Coleção 2025/2026</span></div>
           <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.9] font-bold uppercase tracking-tight text-[#111111] mb-6">VISTA<br />A CAMISA.</h1>
           <p className="text-[#555550] text-base sm:text-lg max-w-xl font-normal leading-relaxed mb-8">{storeConfig.subtagline}</p>
           <div className="w-full sm:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-10">
