@@ -1,4 +1,4 @@
-import { SizeMeasurement } from '../types';
+import { SizeMeasurement, Product, SizeOption } from '../types';
 import { mantoPrimeConfig } from '../stores/manto-prime/config';
 import { mantoPrimeProducts } from '../stores/manto-prime/products';
 
@@ -13,9 +13,33 @@ export const sizeGuideData: SizeMeasurement[] = [
   { size: 'XGG', chest: '62 - 65 cm', length: '81 - 83 cm', weight: '105 - 120 kg', height: '1,90 - 2,00 m' },
 ];
 
-export const buildWhatsAppLink = (phoneNumber: string, message?: string): string => {
-  const encodedMessage = encodeURIComponent(
-    message || defaultStoreConfig.defaultWhatsAppGreeting
-  );
-  return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+export const formatBRL = (value: number): string =>
+  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+
+export const getProductImages = (product: Product): string[] => {
+  if (product.images && product.images.length > 0) return product.images;
+  if (product.image) return [product.image];
+  if (product.secondaryImage) return [product.secondaryImage];
+  return [];
+};
+
+type ProductMessage = { name: string; price: number };
+
+export const buildWhatsAppLink = (
+  phoneNumber: string,
+  message?: string | ProductMessage,
+  size?: SizeOption,
+  customMessage?: string,
+): string => {
+  let text = defaultStoreConfig.defaultWhatsAppGreeting;
+
+  if (customMessage) {
+    text = customMessage;
+  } else if (typeof message === 'string') {
+    text = message;
+  } else if (message && typeof message === 'object') {
+    text = `Olá! Tenho interesse na camisa ${message.name}${size ? `, tamanho ${size}` : ''}, por ${formatBRL(message.price)}. Ainda está disponível para envio?`;
+  }
+
+  return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
 };
