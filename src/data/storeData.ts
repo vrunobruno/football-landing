@@ -38,7 +38,7 @@ export const buildWhatsAppLink = (
   } else if (typeof message === 'string') {
     text = message;
   } else if (message && typeof message === 'object') {
-    text = `Olá! Tenho interesse na camisa ${message.name}${size ? `, tamanho ${size}` : ''}, por ${formatBRL(message.price)}. Ainda está disponível para envio?`;
+    text = `Olá! Tenho interesse na camisa ${message.name}${size ? `, tamanho ${size}` : ''}, por ${formatBRL(message.price)}. Ainda está disponível?`;
   }
 
   return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
