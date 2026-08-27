@@ -1,14 +1,14 @@
 import { StoreConfig } from '../../types';
 
 export const mantoPrimeConfig: StoreConfig = {
-  name: 'Prime Manto',
+  name: 'GM Mantos',
   tagline: 'VISTA A CAMISA.',
   subtagline: 'Camisas de futebol para quem vive o jogo. Mantos nacionais para vestir sua paixão.',
   brandColor: '#B59A62',
-  instagramHandle: '@primemantoofc',
-  instagramUrl: 'https://www.instagram.com/primemantoofc?igsh=MTlsNTNoZDFidnR3eg==',
-  whatsappNumber: '5511970113078',
-  whatsappDisplay: '+55 11 97011-3078',
+  instagramHandle: '@gmmantos',
+  instagramUrl: 'https://www.instagram.com/gmmantos?igsi=ejNtZ293MWFqbjFt',
+  whatsappNumber: '5551992162442',
+  whatsappDisplay: '+55 51 99216-2442',
   city: 'São Paulo',
   state: 'SP',
   pixDiscountPercent: 0,
