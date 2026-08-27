@@ -14,7 +14,7 @@ export const mantoPrimeConfig: StoreConfig = {
   pixDiscountPercent: 0,
   announcementText: 'Pedidos pelo WhatsApp',
   defaultWhatsAppGreeting: 'Olá! Vim pelo catálogo da Manto Prime e gostaria de consultar a disponibilidade de uma camisa.',
-  logoUrl: '/stores/manto-prime/products/logo-prime-manto.jpeg',
+  logoUrl: '/stores/manto-prime/products/gmmantoslogo.jpg',
   heroImage: '/stores/manto-prime/products/palmeiras-home-frente.jpeg',
   heroProductName: 'Palmeiras Home',
   heroProductMeta: 'Tam P ao XGG',
